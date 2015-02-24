@@ -1,0 +1,32 @@
+==================================================================
+                         cliMTA-r v 1.0
+
+            INSTITUTO MEXICANO DE TECNOLOGÕçA DEL AGUA
+                           Agosto, 2012
+            Registro de derechos de autor -- en tr·mite
+
+------------------------------------------------------------------
+LICENCIA DE USO:
+
+El presente sistema se proporciona de manera gratuita y puede ser
+utilizado sin fines de lucro, siempre y cuando los individuos o 
+instituciones que lo utilicen otorguen reconocimiento explÌcito 
+al Instituto Mexicano de TecnologÌa del Agua (IMTA).
+
+La diseminaciÛn y uso del cÛdigo fuente, entregado como parte del
+presente producto, est·° sujeto a los tÈrminos y condiciones que 
+se describen de manera precisa en la licencia GPLv3, bajo la cual
+se provee y que puede consultarse en la p·gina:
+
+http://www.gnu.org/licenses/gpl-3.0.html
+
+Bajo los tÈrminos de la citada licencia, el cÛdigo fuente del pro-
+ducto se puede modificar, por lo que,  se  sugiere en ese  caso, 
+notificarlo al IMTA y asimismo aportar el cÛdigo fuente de dichas
+modificaciones como una contribuciÛn para la mejora del producto.
+
+El sistema se otorga "como es" y el Instituto Mexicano de Tecnolo-
+gÌa del Agua, no asume ninguna responsabilidad por el uso que pu-
+diera darse al mismo,  o por la informaciÛn  que se derive de su 
+utilizaciÛn.
+===================================================================
