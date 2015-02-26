@@ -17,7 +17,7 @@ bdir <- "CUENCAS"
 cuencas <- list.files(bdir)
 
 for (cc in cuencas) {
-    print ("=========")
+    # print ("=========")
     cdir <- paste0(bdir, "/", cc)
     # print (cdir)
     files <- list.files(cdir)
