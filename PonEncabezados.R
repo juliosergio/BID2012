@@ -32,7 +32,7 @@ for (cc in cuencas) {
         names(tt) <- hd
         # print(head(tt,3))
         # Va de regreso a archivo, pero ahora .txt con headers
-        newname <- paste0(prefix, bare, ".txt")
+        newname <- paste0(prefix, bare, "e.txt")
         # print(newname)
         write.table(tt, newname, row.names=F)
     }

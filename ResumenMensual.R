@@ -3,7 +3,7 @@
 #
 #   Hace el resumen por (año,mes)
 #====================================
-
+library(dplyr)
 # Directorio base
 bdir <- "CUENCAS"
 
@@ -15,15 +15,18 @@ for (cc in cuencas) {
     # print (cdir)
     #>> files <- list.files(cdir)
     #>> files <- files[grep("\\.dat", files)] # Sólo los .dat
-    files <- system2("ls", paste0(cdir, "/*txt"), stdout=T)
+    files <- system2("ls", paste0(cdir, "/*e.txt"), stdout=T)
     for (ff in files) {
-        bare <- strsplit(ff, "." , fixed=T)[[1]][1] # Sin ".txt"
+        bare <- strsplit(ff, "e." , fixed=T)[[1]][1] # Sin "e.txt"
         #>> prefix <- paste0(cdir, "/") # Ya no es necesario
         #>> fnam <- paste0(prefix, ff) # Ya no es necesario
-        tt <- read.table(ff) #>> fnam)
+        tt <- tbl_df(read.table(ff, header=T)) #>> fnam)
+        tt <- tt %>% 
+            group_by(anio, mes) %>%
+                summarise(ppAcc=sum(pp), mTmax=mean(tmax), mTmin=mean(tmin))        
         # OPERACIONES (crea nuevo tt)
-        postfijo <- "XXX.txt"
-        newname <- paste0(prefix, bare, postfijo)
+        postfijo <- "_Rmens.txt"
+        newname <- paste0(bare, postfijo)
         # print(newname)
         write.table(tt, newname, row.names=F)
     }
