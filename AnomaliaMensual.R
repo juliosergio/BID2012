@@ -1,5 +1,5 @@
 #====================================
-#AnomaliaMensual.R
+# AnomaliaMensual.R
 #
 #   Calcula Anomalias mensuales:
 #   restamos medias de la climatologia a 
