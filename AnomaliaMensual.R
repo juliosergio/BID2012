@@ -27,12 +27,11 @@ for (cc in cuencas) {
         tclima <- read.table(fclima, header=T) # Tiene 12 renglones 
         # La operación de resta, agrupada por (anio: --12 meses--)
         tt <- tt %>% 
-            group_by(anio) %>%
             mutate(
-                ppAcc =  ppAcc - tclima$mApp, 
-                mTmax =  mTmax - tclima$mmTmax,
-                mTmin =  mTmin - tclima$mmTmin
-            )  
+                ppAcc =  ppAcc - tclima$mApp[mes], 
+                mTmax =  mTmax - tclima$mmTmax[mes],
+                mTmin =  mTmin - tclima$mmTmin[mes]
+            )
         # Nuevo nombre del archivo:
         postfijo <- "_AnomMens.txt"
         newname <- paste0(bare, postfijo)
