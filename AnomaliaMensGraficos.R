@@ -79,7 +79,7 @@ for (mm in 1:12) { # índices de meses
         #   paso al siguiente dispositivo gráfico: (el primero)
         dev.set(dev.next())
         gii <- 0
-        yr <- range(tt$ppAcc)*1.07
+        yr <- range(tt$ppAcc)*1.09
         gfun(x=tt$anio, y=tt$ppAcc, main=paste0(Meses[mm], "-Precip(mm)"),
              col=col, lwd=1, xlim=xr, ylim=yr)
         
@@ -88,7 +88,7 @@ for (mm in 1:12) { # índices de meses
         #   paso al siguiente dispositivo gráfico:
         dev.set(dev.next())
         gii <- 1
-        yr <- range(tt$mTmax)*1.07
+        yr <- range(tt$mTmax)*1.09
         gfun(x=tt$anio, y=tt$mTmax, main=paste0(Meses[mm], "-Tmax(gr)"),
              col=col, lwd=1, xlim=xr, ylim=yr)
         
@@ -97,7 +97,7 @@ for (mm in 1:12) { # índices de meses
         #   paso al siguiente dispositivo gráfico:
         dev.set(dev.next())
         gii <- 2
-        yr <- range(tt$mTmin)*1.07
+        yr <- range(tt$mTmin)*1.09
         gfun(x=tt$anio, y=tt$mTmin, main=paste0(Meses[mm], "-Tmin(gr)"),
              col=col, lwd=1, xlim=xr, ylim=yr)
         
