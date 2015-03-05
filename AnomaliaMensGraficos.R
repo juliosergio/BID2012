@@ -16,14 +16,15 @@ library(bitops) # operaciones con bits
 glob <- "GLOBAL" # En este se guardará la MegaTabla
 fname <- paste0(glob, "/MegaTabla.txt")
 dirGraf <- paste0(glob, "/GRAFICOS/AnomaliasMensual/") # Directorio de gráficos
+graphics.off()
+gpar <- list(mar=c(5.1, 4.1, 4.1, 3.15*4.1), xpd=F)
 
 Meses <- c("Ene","Feb","Mar","Abr","May","Jun",
            "Jul","Ago","Sep","Oct","Nov","Dic")
 # Los colores que usaré para cada cuenca
-colores <- colors()[c(12,31,35,41,90,100,121,164,456,493)] # diez colores
+colores <- colors()[c(12,31,35,41,90,100,121,456,496,653)] # diez colores
 
-graphics.off()
-# Función para graficar
+# Función para graficar: selecciona ya sea "plot" o "lines"
 gfun <- function (...) {
     mask <- as.integer(bitShiftL(1L,gii)) # gi==0,1,..
     if (as.integer(bitAnd(gflag,mask))==0L) {
@@ -66,8 +67,11 @@ for (mm in 1:12) { # índices de meses
     gnameTmin <- paste0(dirGraf, Meses[mm], "_Tmin.pdf")
     # Los abriré en tal orden que quede el que me interesa como activo:
     pdf(gnamePP) 
+    par(gpar) # los parámetros van por dispositivo
     pdf(gnameTmax)
+    par(gpar)
     pdf(gnameTmin) # Este es el que quda activo al principio del ciclo (ultimo)
+    par(gpar)
     
     # Filtraré la información por mes:
     mtt <- MegaT %>% filter(mes==mm)
@@ -85,7 +89,7 @@ for (mm in 1:12) { # índices de meses
         # Se extrae la información que nos interesa (se filtra por cuenca)
         tt <- mtt %>% filter(cuenca==cc)
         # Rango de las X con espacio para leyenda
-        xr <- range(tt$anio) + c(0,31)
+        xr <- range(tt$anio) + c(0,1)
         
         #----------
         # primer variable -precipitación-
@@ -119,12 +123,14 @@ for (mm in 1:12) { # índices de meses
     # leyendas
     for (ii in 1:3) {
         dev.set(dev.next())
-        abline(h=0, col="red")
-        legend("bottomright", legend=cuencas, col=colores, pch=15)
+        # segments(xr[1], 0, xr[2], 0, lty="dotdash", lwd=2, col="navyblue")
+        abline (h=0, lty="dotdash", lwd=2, col="navyblue")
+        par(xpd=T)
+        legend("topright", inset=c(-0.71,0.2), 
+               legend=cuencas, col=colores, pch=15,
+               title="Cuencas", bty="n")
+        par(xpd=F)
     }
     # se cierran todos los dispositivos gráficos:
     graphics.off()
 }
-
-
-
