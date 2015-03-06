@@ -61,6 +61,20 @@ ffmod <- function(ddf, v) {
     coef(mm)[2]
 }
 
+# +--- ***OTRA ALTERNATIVA*** ---+
+# |        usando dplyr          |
+fff <- function (x, y) {
+    # función sólo en términos 
+    # de las columnas para usar
+    # con "dplyr"
+    mm <- lm(y ~ x)
+    coef(mm)[2]
+}
+# |                              |
+# +-FIN ***OTRA ALTERNATIVA***  -+
+
+
+
 # Rango de las X 
 yr <- c(-0.1, 0.1)
 yr.pp <- c(-2.5, 2.5)
@@ -95,7 +109,19 @@ for (ii in 1:nc) { # varía sobre 1..número de cuencas
     aApp <- sapply(xx, ffmod, "ppAcc")
     aTmax <- sapply(xx, ffmod, "mTmax")
     aTmin <- sapply(xx, ffmod, "mTmin")
-
+    # +----- ***OTRA ALTERNATIVA*** ------+
+    # |           usando dplyr            |    
+    # |     aquí usaré tt y no xx         |
+    ttr <- tt %>% 
+        group_by(mes) %>%
+        summarise(aApp=fff(anio, ppAcc), 
+                  aTmax=fff(anio,mTmax), 
+                  aTmin=fff(anio,mTmin))   
+    # | compare las columnas mpp, mmTmax  |
+    # | y mmTmin, con los vectores        |
+    # | aApp, aTmax y aTmin de arriba     |
+    # +---FIN ***OTRA ALTERNATIVA***  ----+
+    
     #----------
     # primer variable -precipitación-
     #   paso al siguiente dispositivo gráfico: (el primero)
