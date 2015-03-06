@@ -150,6 +150,20 @@ for (ii in 1:nc) { # varía sobre 1..número de cuencas
          col=col, lwd=1, ylim=yr, xaxt="n")
 }
 
+# +----- ***AUN OTRA ALTERNATIVA MAS*** ------+
+# |               usando dplyr                |    
+# |     aquí usaré Metat n no tt y ni xx      |
+ttrr <- MegaT %>%
+        group_by(cuenca, mes) %>%
+        summarise(
+            aApp=fff(anio, ppAcc),
+            aTmax=fff(anio,mTmax),
+            aTmin=fff(anio,mTmin))
+# |  la tabla resultante solo hay que         |
+# |  separarla con filter o split por cuenca  |
+# +-FIN- ***AUN OTRA ALTERNATIVA MAS*** ------+
+
+
 
 # Antes de cerrar los dispositivos gráficos se añaden las 
 # leyendas
