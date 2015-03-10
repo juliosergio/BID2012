@@ -75,7 +75,7 @@ fff <- function (x, y) {
 
 
 
-# Rango de las X 
+# Rango de las Y 
 yr <- c(-0.1, 0.1)
 yr.pp <- c(-2.5, 2.5)
 
@@ -152,7 +152,7 @@ for (ii in 1:nc) { # varía sobre 1..número de cuencas
 
 # +----- ***AUN OTRA ALTERNATIVA MAS*** ------+
 # |               usando dplyr                |    
-# |     aquí usaré Metat n no tt y ni xx      |
+# |     aquí usaré MegaT n no tt y ni xx      |
 ttrr <- MegaT %>%
         group_by(cuenca, mes) %>%
         summarise(
