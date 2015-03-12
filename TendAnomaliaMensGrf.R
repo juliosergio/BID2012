@@ -11,7 +11,7 @@ library(bitops) # operaciones con bits
 
 # Directorio de información global
 glob <- "GLOBAL" # En este se guardará la MegaTabla
-fname <- paste0(glob, "/MegaTabla.txt")
+fname <- paste0(glob, "/MegaTabla.RData")
 dirGraf <- paste0(glob, "/GRAFICOS/TendenciasMensual/") # Directorio de gráficos
 graphics.off()
 gpar <- list(mar=c(5.1, 4.1, 4.1, 3.15*4.1), xpd=F)
@@ -42,7 +42,9 @@ gflag <- 0L
 gii <- 0 # se incrementará: 0,1,2,...
 
 # La gran tabla que incluye "todo":
-MegaT <-  tbl_df(read.table(fname, header=T))
+#    ya no se leerá de un archivo de texto con read.table
+#REMOVED>> MegaT <-  tbl_df(read.table(fname, header=T))
+load(fname) # Contiene MegaT generada con   HacerMegaTabla.R
 # Averiguamos las cuencas
 cuencas <- levels(MegaT$cuenca)
 nc <- length(cuencas)

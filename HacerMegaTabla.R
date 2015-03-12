@@ -12,7 +12,18 @@ bdir <- "CUENCAS"
 # Directorio de información global
 glob <- "GLOBAL" # En este se guardará la MegaTabla
 
-cuencas <- list.files(bdir)
+cuencas <- list.files(bdir) # orden alfabético
+# Nececitamos ordenar las cuencas de acuerdo con cierta ubicación 
+# geográfica
+
+# Para el orden correcto:
+#          1      2      3      4      5      6     7     8       9     10
+#        BRAV.. LAJA  LERM-SL LERM-T MOCT.. PAPL.. STG.. SOTO..  VRD.. YAQ..
+# ---------------
+#        YAQ..  BRAV.. SOTO..  STG  LERM-SL LERM-T MOCT.. LAJA  VRD..  PAPL
+ord <- c( 10  ,  1  ,   8   ,   7  ,   3   ,   4  ,  5  ,  2   ,  9  ,  6 )
+# Reordenamos:
+cuencas <- cuencas[ord]
 
 # Haré una gran tabla que incluya todo:
 MegaT <- NULL
@@ -49,8 +60,13 @@ for (cc in cuencas) {
 MegaT$cuenca <- factor(MegaT$cuenca, levels=1:(icuenca-1))
 levels(MegaT$cuenca) <- cuencas
 
-# Ahora se procede a guardar la MegaTabla en un archivo de texto
-fname <- paste0(glob, "/MegaTabla.txt")
-write.table(MegaT, fname, row.names=F)
+# Ahora se procedía a guardar la MegaTabla en un archivo de texto, 
+# ya no lo haré así puesto que no respeta el orden de los levels en 
+# los factores: 
+#REMOVED>> fname <- paste0(glob, "/MegaTabla.txt")
+#REMOVED>> write.table(MegaT, fname, row.names=F)
 
+# Ahora salvaré la tabla en un objeto binario de R: 
+fname <- paste0(glob, "/MegaTabla.RData")
+save(MegaT, file=fname)
 

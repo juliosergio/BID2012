@@ -12,7 +12,7 @@ library(bitops) # operaciones con bits
 
 # Directorio de información global
 glob <- "GLOBAL" # En este se guardará la MegaTabla
-fname <- paste0(glob, "/MegaTabla.txt")
+fname <- paste0(glob, "/MegaTabla.RData")
 dirGraf <- paste0(glob, "/GRAFICOS/PendientesMensual/") # Directorio de gráficos
 
 Meses <- c("Ene","Feb","Mar","Abr","May","Jun",
@@ -32,7 +32,9 @@ fff <- function (x, y) {
 
 
 # La gran tabla que incluye "todo":
-MegaT <-  tbl_df(read.table(fname, header=T))
+#    ya no se leerá de un archivo de texto con read.table
+#REMOVED>> MegaT <-  tbl_df(read.table(fname, header=T))
+load(fname) # Contiene MegaT generada con   HacerMegaTabla.R
 # Averiguamos las cuencas
 cuencas <- levels(MegaT$cuenca)
 nc <- length(cuencas)
@@ -108,7 +110,7 @@ for (jj in 1:3) { # Un archivo gráfico por variable
         
         # tit <- if(ii==1) titles[jj] else ""
         
-        plot(tt, main=tit,
+        plot(tt, #>> main=tit,
              ylab=LETTERS[ii], xlab="", type="b", ylim=yr[[jj]], xaxt="n")
         abline (h=0, lty="dotdash", lwd=2)  
         
