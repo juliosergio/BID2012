@@ -74,6 +74,41 @@ titles <- c(
 
 # Se inicializan los plots 
 graphics.off()
+# Para la creación de un conjunto de ventanas de graficación,
+# con el siguiente arreglo:
+#       +-----------------------------------+ (1,1)
+#       |                11                 |
+#       +--+-----------------------------+--+
+#       |  |              1              |  |
+#       |  +-----------------------------+  |
+#       |  |              2              |  |
+#       |  +-----------------------------+  |
+#       |  |              3              |  |
+#       |  +-----------------------------+  |
+#       |12:              :              :13|
+#       |  |                             |  |
+#       |  +-----------------------------+  |
+#       |  |             10              |  |
+#       +--+-----------------------------+--+
+#    (0,0)
+#
+Yinc <- rep(1,10)/10.5
+Yinc <- Reduce('+', Yinc, accumulate=T)
+# orden inverso
+Yinc <- Yinc[10:1] # Ys de las 1as. 10 ventanas
+# Matriz de definición (10 ventanas):
+Mm <- cbind(left=1/10, right=9/10, bottom=c(Yinc[2:10],0), top=Yinc)
+# Ahora las ventanas, superior y laterales, 11, 12 y 13:
+Mm <- rbind(Mm, 
+      # +--------+--------+--------+--------+
+      # | left   | right  | bottom |   top  |
+      # +--------+--------+--------+--------+
+       c(   0    ,   1    , Yinc[1],    1   ),
+       c(   0    ,  0.1   ,   0    , Yinc[1]),
+       c(  9/10  ,   1    ,   0    , Yinc[1])
+      )
+
+
 gpar <- list(mfrow=c(12,1), mar=c(0.95, 4.1, 0.1, 2.1))
 # gpar <- list(mfrow=c(5,1), mar=c(0.95, 4.1, 0.1, 2.1))
 
