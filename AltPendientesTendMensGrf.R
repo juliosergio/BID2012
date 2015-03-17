@@ -75,6 +75,7 @@ titles <- c(
 # Se inicializan los plots 
 graphics.off()
 # Para la creación de un conjunto de ventanas de graficación,
+# mediante la función 
 # con el siguiente arreglo:
 #       +-----------------------------------+ (1,1)
 #       |                11                 |
@@ -98,7 +99,7 @@ Yinc <- Reduce('+', Yinc, accumulate=T)
 Yinc <- Yinc[10:1] # Ys de las 1as. 10 ventanas
 # Matriz de definición (10 ventanas):
 Mm <- cbind(left=1/10, right=9/10, bottom=c(Yinc[2:10],0), top=Yinc)
-# Ahora las ventanas, superior y laterales, 11, 12 y 13:
+# Ahora agregamos las ventanas, superior y laterales, 11, 12 y 13:
 Mm <- rbind(Mm, 
       # +--------+--------+--------+--------+
       # | left   | right  | bottom |   top  |
