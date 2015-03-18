@@ -67,51 +67,65 @@ ttrr <- MegaT %>%
 yr <- list(c(-2.5, 2.5), c(-0.1, 0.1), c(-0.1, 0.1))
 
 titles <- c(
-    "Pendientes-Tendencia-Precipitación (mm/año)", 
-    "Pendientes-Tendencia-Temp. Máx. (°/año)",
-    "Pendientes-Tendencia-Temp. Min. (°/año)"
+    "Pendientes-Tendencia-Precipitación", 
+    "Pendientes-Tendencia-Temp. Máx.",
+    "Pendientes-Tendencia-Temp. Min."
+)
+
+# Unidades de la escala:
+usc <- c(
+    "mm/año", 
+    "°/año",
+    "°/año"    
 )
 
 # Se inicializan los plots 
 graphics.off()
 # Para la creación de un conjunto de ventanas de graficación,
-# mediante la función 
+# mediante los parámetros primitivos de graficación par(fig, new)
 # con el siguiente arreglo:
 #       +-----------------------------------+ (1,1)
-#       |                11                 |
+#       |                11  h=0.5/11.1     |
 #       +--+-----------------------------+--+
-#       |  |              1              |  |
+#       |  |              1  h=1/11.1    |  |
 #       |  +-----------------------------+  |
-#       |  |              2              |  |
+#       |  |              2  h=1/11.1    |  |
 #       |  +-----------------------------+  |
-#       |  |              3              |  |
+#       |  |              3  h=1/11.1    |  |
 #       |  +-----------------------------+  |
 #       |12:              :              :13|
 #       |  |                             |  |
 #       |  +-----------------------------+  |
-#       |  |             10              |  |
+#       |  |             10  h=1.6/11.1  |  |
 #       +--+-----------------------------+--+
 #    (0,0)
 #
-Yinc <- rep(1,10)/10.5
+# La ventana 10, correspondiente el primer índice del siguiente vector,
+# lleva un espacio extra para etiquetas (su altura es del doble)
+# Vector de alturas:
+Yinc <- c(1.6, rep(1,9))/11.1 
+# Las acumulo
 Yinc <- Reduce('+', Yinc, accumulate=T)
 # orden inverso
 Yinc <- Yinc[10:1] # Ys de las 1as. 10 ventanas
 # Matriz de definición (10 ventanas):
-Mm <- cbind(left=1/10, right=9/10, bottom=c(Yinc[2:10],0), top=Yinc)
+Mm <- cbind(left=1/15, right=14/15, bottom=c(Yinc[2:10],0), top=Yinc)
 # Ahora agregamos las ventanas, superior y laterales, 11, 12 y 13:
 Mm <- rbind(Mm, 
       # +--------+--------+--------+--------+
       # | left   | right  | bottom |   top  |
       # +--------+--------+--------+--------+
        c(   0    ,   1    , Yinc[1],    1   ),
-       c(   0    ,  0.1   ,   0    , Yinc[1]),
-       c(  9/10  ,   1    ,   0    , Yinc[1])
+       c(   0    ,  1/15  ,   0    , Yinc[1]),
+       c(  14/15 ,   1    ,   0    , Yinc[1])
       )
+# Mm contiene la definición de las 13 ventanas necesarias. Cada dispositivo
+# (archivo) se divide de acuerdo con esa definición.
 
-
-gpar <- list(mfrow=c(12,1), mar=c(0.95, 4.1, 0.1, 2.1))
-# gpar <- list(mfrow=c(5,1), mar=c(0.95, 4.1, 0.1, 2.1))
+#>> gpar <- list(mar=c(0.3, 4.1, 0.1, 2.1))
+#>> gpar1 <- list(mar=c(3, 4.1, 0.1, 2.1))
+gpar <- list(mar=c(0.3, 4.1, 0.17, 4.1))
+gpar1 <- list(mar=c(3, 4.1, 0.17, 4.1))
 
 # Se abrirán tres dispositivos gráficos (archivos pdf), cuyos
 # nombres estarán compuestos por c/variable
@@ -119,24 +133,37 @@ gnamePP <- paste0(dirGraf, "AltPend_Tnd_PP.pdf")
 gnameTmax <- paste0(dirGraf, "AltPend_Tnd_Tmax.pdf") 
 gnameTmin <- paste0(dirGraf, "AltPend_Tnd_Tmin.pdf")
 # Los abriré en tal orden que quede el que me interesa como activo:
-pdf(gnamePP, width=7, height=10.06) 
-par(gpar) # los parámetros van por dispositivo
-pdf(gnameTmax, width=7, height=10.06)
-par(gpar)
-pdf(gnameTmin, width=7, height=10.06) # Este es el que quda activo al principio del ciclo (ultimo)
-par(gpar)
+pdf(gnamePP, width=7, height=9.11) 
+#YANO>> par(gpar) # los parámetros van por dispositivo
+pdf(gnameTmax, width=7, height=9.11)
+#YANO>> par(gpar)
+pdf(gnameTmin, width=7, height=9.11) # Este es el que quda activo al principio del ciclo (ultimo)
+#YANO>> par(gpar)
 
 
 # Antes de cerrar los dispositivos gráficos se añaden las 
 # leyendas
 for (jj in 1:3) { # Un archivo gráfico por variable
     dev.set(dev.next()) # Un dispositivo 
-    plot(c(0,1), c(0,1), axes=F, xlab="", ylab="", type="n")
+    # Ahora creamos las ventanas:
+    #YANO>> split.screen(Mm) # Divide todo el espacio del dispositivo
+    # En la ventana superior (11) va el título:
+    #YANO>> screen(11); 
+    # Ventana 11
+    par(fig=Mm[11,])
+    par(gpar)
+    plot(c(0,1), c(0,1), ylab="", axes=F, type="n")
     # points(0.5, 0)
-    text(0.5, 0.3, titles[jj], cex=1.5)
+    text(0.5, 0.5, titles[jj], cex=1.5)
     
     # Para cada cuenca:
     for (ii in 1:nc) { # varía sobre 1..número de cuencas 
+        # La gráfica se dibuja en la ventana correspondiente a la cuenca
+        # que son las numeradas de 1:10 (nc)
+        #YANO>> screen(ii); 
+        # Ventanas 1 a 10 (ii):
+        par(fig=Mm[ii,], new=T)
+        par(if (ii==nc) gpar1 else gpar)
         cc <- cuencas[ii]
         # Nos interesa la información correspondiente a la cuenca
         tt <- ttrr %>% 
@@ -147,23 +174,40 @@ for (jj in 1:3) { # Un archivo gráfico por variable
         # tit <- if(ii==1) titles[jj] else ""
         
         plot(tt, #>> main=tit,
-             ylab=LETTERS[ii], xlab="", type="b", ylim=yr[[jj]], xaxt="n")
-        abline (h=0, lty="dotdash", lwd=2)  
+             ylab=LETTERS[ii], xlab="", type="b", ylim=yr[[jj]], axes=F,
+             frame=T)
+        abline (h=0, lty="dotdash", lwd=2)
+        grid(lwd=1)
+        tics <- c(yr[[jj]][1], 0, yr[[jj]][2])
+        axis(4, at=tics, lab=tics, las=2)
         
         if (ii==nc)
             axis(1, at=1:12, lab=Meses, las=2)
     }
-    plot(c(0,1), c(0,1), axes=F, xlab="", ylab="CUENCAS", type="n")
-    abline(h=0.7)
-    legend(-0.05, 0.65, 
-           legend=paste0(LETTERS[1:3], ": ", cuencas[1:3]), bty="n")
-    legend(0.2, 0.65,
-           legend=paste0(LETTERS[4:5], ": ", cuencas[4:5]), bty="n")
-    legend(0.50, 0.65,
-           legend=paste0(LETTERS[6:7], ": ", cuencas[6:7]), bty="n")
-    legend(0.8, 0.65,
-           legend=paste0(LETTERS[8:10], ": ", cuencas[8:10]), bty="n")
-    #text(0.5, 0.1, "CUENCAS", cex=1.5)  
+    # Ventana lateral izquierda
+    #YANO>> screen(12); 
+    # Ventana 12
+    par(fig=Mm[12,], new=T)
+    par(mar=c(0.1,0.1,0.1,0.1))
+    plot(c(0,1), c(0,1), axes=F, type="n")
+    text(0.5, 0.5, "CUENCAS", srt=90, cex=1.2)
+    # Ventana lateral derecha
+    #YANO>> screen(13); 
+    # Ventana 13
+    par(fig=Mm[13,], new=T)
+    par(mar=c(0.1,0.1,0.1,0.1))
+    plot(c(0,1), c(0,1), axes=F, type="n")
+    text(0.5, 0.5, usc[jj], srt=90, cex=1.2)
+    #YANO>> abline(h=0.7)
+    #YANO>> legend(-0.05, 0.65, 
+    #YANO>>        legend=paste0(LETTERS[1:3], ": ", cuencas[1:3]), bty="n")
+    #YANO>> legend(0.2, 0.65,
+    #YANO>>        legend=paste0(LETTERS[4:5], ": ", cuencas[4:5]), bty="n")
+    #YANO>> legend(0.50, 0.65,
+    #YANO>>        legend=paste0(LETTERS[6:7], ": ", cuencas[6:7]), bty="n")
+    #YANO>> legend(0.8, 0.65,
+    #YANO>>        legend=paste0(LETTERS[8:10], ": ", cuencas[8:10]), bty="n")
+    #YANO>> text(0.5, 0.1, "CUENCAS", cex=1.5)  
 }
 # se cierran todos los dispositivos gráficos:
 graphics.off()
