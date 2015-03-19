@@ -15,8 +15,9 @@ glob <- "GLOBAL" # En este se guardará la MegaTabla
 fname <- paste0(glob, "/MegaTabla.RData")
 dirGraf <- paste0(glob, "/GRAFICOS/PendientesMensual/") # Directorio de gráficos
 
-Meses <- c("Ene","Feb","Mar","Abr","May","Jun",
-           "Jul","Ago","Sep","Oct","Nov","Dic")
+#YANO>> Meses <- c("Ene","Feb","Mar","Abr","May","Jun",
+#YANO>>            "Jul","Ago","Sep","Oct","Nov","Dic")
+Meses <- month.abb
 
 # +--- ***FUNCIÓN DE MODELO*** ---+
 # |        usando dplyr           |
@@ -67,16 +68,16 @@ ttrr <- MegaT %>%
 yr <- list(c(-2.5, 2.5), c(-0.1, 0.1), c(-0.1, 0.1))
 
 titles <- c(
-    "Pendientes-Tendencia-Precipitación", 
-    "Pendientes-Tendencia-Temp. Máx.",
-    "Pendientes-Tendencia-Temp. Min."
+    "Precipitation Tendency", 
+    "Maximun Temperature Tendency",
+    "Minimum Temperature Tendency"
 )
 
 # Unidades de la escala:
-usc <- c(
-    "mm/año", 
-    "°/año",
-    "°/año"    
+usc <- list(
+    expression((mm) * (Year)^(-1)), 
+    expression((Deg) * (Year)^(-1)),
+    expression((Deg) * (Year)^(-1))   
 )
 
 # Se inicializan los plots 
@@ -179,7 +180,7 @@ for (jj in 1:3) { # Un archivo gráfico por variable
         abline (h=0, lty="dotdash", lwd=2)
         grid(lwd=1)
         tics <- c(yr[[jj]][1], 0, yr[[jj]][2])
-        axis(4, at=tics, lab=tics, las=2)
+        axis(4, at=tics, lab=tics, las=2, cex.axis=0.7)
         
         if (ii==nc)
             axis(1, at=1:12, lab=Meses, las=2)
@@ -190,14 +191,14 @@ for (jj in 1:3) { # Un archivo gráfico por variable
     par(fig=Mm[12,], new=T)
     par(mar=c(0.1,0.1,0.1,0.1))
     plot(c(0,1), c(0,1), axes=F, type="n")
-    text(0.5, 0.5, "CUENCAS", srt=90, cex=1.2)
+    text(0.5, 0.5, "WATERSHEDS", srt=90, cex=1.2)
     # Ventana lateral derecha
     #YANO>> screen(13); 
     # Ventana 13
     par(fig=Mm[13,], new=T)
     par(mar=c(0.1,0.1,0.1,0.1))
     plot(c(0,1), c(0,1), axes=F, type="n")
-    text(0.5, 0.5, usc[jj], srt=90, cex=1.2)
+    text(0.5, 0.5, usc[[jj]], srt=90, cex=1.2)
     #YANO>> abline(h=0.7)
     #YANO>> legend(-0.05, 0.65, 
     #YANO>>        legend=paste0(LETTERS[1:3], ": ", cuencas[1:3]), bty="n")
