@@ -62,6 +62,16 @@ ttrr <- MegaT %>%
 # |  por cuenca                             |
 # +-FIN- ****USARE ESTA ALTERNATIVA*** -----+
 
+# +========== CALCULO DE CORRELACIONES ===========+
+# |               Tmax vs Precip                  |
+# +===============================================+
+ttt <- ttrr %>% ungroup %>%
+    group_by(cuenca) %>%
+    summarise(corr=cor(aTmax, aApp))
+
+# Escribimos a un archivo
+write.csv(ttt, file=paste0(dirGraf, "Corr_Tmax_vs_Precip.csv"))
+
 # +-------- Rango de las Y, por variable ----------+
 # +--------+-------------+-------------+-----------+
 # |        |   precip    |   Tmax      |   Tmin    |
