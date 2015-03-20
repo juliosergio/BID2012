@@ -86,8 +86,8 @@ titles <- c(
 # Unidades de la escala:
 usc <- list(
     expression(paste("mm ",  Year^-1)), 
-    expression(paste("° ", Year^-1)),
-    expression(paste("° ", Year^-1))   
+    expression(paste("°C ", Year^-1)),
+    expression(paste("°C ", Year^-1))   
 )
 
 # Se inicializan los plots 
