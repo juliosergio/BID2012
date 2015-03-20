@@ -75,9 +75,9 @@ titles <- c(
 
 # Unidades de la escala:
 usc <- list(
-    expression((mm) * (Year)^(-1)), 
-    expression((Deg) * (Year)^(-1)),
-    expression((Deg) * (Year)^(-1))   
+    expression(paste("mm ",  Year^-1)), 
+    expression(paste("° ", Year^-1)),
+    expression(paste("° ", Year^-1))   
 )
 
 # Se inicializan los plots 
