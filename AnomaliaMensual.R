@@ -28,7 +28,7 @@ for (cc in cuencas) {
         # La operación de resta, agrupada por (anio: --12 meses--)
         tt <- tt %>% 
             mutate(
-                ppAcc =  ppAcc - tclima$mApp[mes], 
+                ppAcc =  ppAcc - tclima$mApp[mes],
                 mTmax =  mTmax - tclima$mmTmax[mes],
                 mTmin =  mTmin - tclima$mmTmin[mes]
             )
