@@ -35,9 +35,9 @@ MegaT <- MegaT %>%
 yr <- list(c(-3.5, 3.5), c(-1, 1), c(-1, 1))
 
 titles <- c(
-    "Precipitation Clima", 
-    "Maximun Temperature Clima",
-    "Minimum Temperature Clima"
+    "Precipitation Climatology", 
+    "Maximun Temperature Climatology",
+    "Minimum Temperature Climatology"
 )
 
 # Unidades de la escala:
