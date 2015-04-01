@@ -69,12 +69,14 @@ ttrr <- MegaT %>%
 titles <- c(
     "Precipitation Tendency", 
     "Maximun Temperature Tendency",
-    "Minimum Temperature Tendency"
+    "Minimum Temperature Tendency",
+    "Min and Max Temperature Tendency"
 )
 
 # Unidades de la escala:
 usc <- list(
     expression(paste("% ",  Year^-1)), 
+    expression("°C per decade"),
     expression("°C per decade"),
     expression("°C per decade")   
 )
@@ -87,10 +89,13 @@ graphics.off()
 gnamePP <- paste0(dirGraf, "Pend_Tnd_PP.pdf") 
 gnameTmax <- paste0(dirGraf, "Pend_Tnd_Tmax.pdf") 
 gnameTmin <- paste0(dirGraf, "Pend_Tnd_Tmin.pdf")
+# Alternativamente: -- tendencias de temperatura anual combinado --
+gnameTemp <- paste0(dirGraf, "AltPend_Tnd_Tmp.pdf")
 # Los abriré en tal orden que quede el que me interesa como activo:
 pdf(gnamePP) 
 pdf(gnameTmax)
 pdf(gnameTmin)
+pdf(gnameTemp)
 
 
 # Antes de cerrar los dispositivos gráficos se añaden las 
@@ -101,5 +106,12 @@ for (jj in 1:3) { # Un archivo gráfico por variable
     barplot(ttrr[[1+jj]], main=titles[jj] , 
             names=LETTERS[1:10], xlab="WATERSHEDS", ylab=usc[jj])
 }
+# Hacemos el gráfico alterno de temperaturas
+dev.set(dev.next()) # Último dispositivo 
+barplot(t(as.matrix(select(ttrr, aTmin:aTmax) %>% mutate(aTmax=aTmax-aTmin))), 
+        beside=F,
+        main=titles[4], 
+        names=LETTERS[1:10], xlab="WATERSHEDS", ylab=usc[4])
+barplot(ttrr$aTmin, col=gray(0.35), add=T)
 # se cierran todos los dispositivos gráficos:
 graphics.off()

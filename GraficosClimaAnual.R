@@ -28,12 +28,13 @@ MegaT <- MegaT %>%
 
 titles <- c(
     "Precipitation Climatology", 
-    "Maximun Temperature Climatology",
-    "Minimum Temperature Climatology"
+    "Maximum Temperature Climatology",
+    "Minimum Temperature Climatology",
+    "Min an Max Temperatures Climatology"
 )
 
 # Unidades de la escala:
-usc <- list("mm" , "°C", "°C")
+usc <- list("mm" , "°C", "°C", "°C")
 
 # Se inicializan los plots 
 graphics.off()
@@ -42,10 +43,13 @@ graphics.off()
 gnamePP <- paste0(dirGraf, "ClimaAnual_PP.pdf") 
 gnameTmax <- paste0(dirGraf, "ClimaAnual_Tmax.pdf") 
 gnameTmin <- paste0(dirGraf, "ClimaAnual_Tmin.pdf")
+# Alternativamente: -- cllima anual combinado --
+gnameTemp <- paste0(dirGraf, "AltClimaAnual_Tmp.pdf")
 # Los abriré en tal orden que quede el que me interesa como activo:
 pdf(gnamePP) 
 pdf(gnameTmax)
 pdf(gnameTmin) # Este es el que quda activo al principio del ciclo (ultimo)
+pdf(gnameTemp)
 
 
 # Antes de cerrar los dispositivos gráficos se añaden las 
@@ -56,5 +60,12 @@ for (jj in 1:3) { # Un archivo gráfico por variable
             names=LETTERS[1:10], xlab="WATERSHEDS", ylab=usc[jj])
     
 }
+# Hacemos el gráfico alterno de temperaturas
+dev.set(dev.next()) # Último dispositivo 
+barplot(t(as.matrix(select(MegaT, aTmin:aTmax) %>% mutate(aTmax=aTmax-aTmin))), 
+        beside=F,
+        main=titles[4], 
+        names=LETTERS[1:10], xlab="WATERSHEDS", ylab=usc[4])
+
 # se cierran todos los dispositivos gráficos:
 graphics.off()
