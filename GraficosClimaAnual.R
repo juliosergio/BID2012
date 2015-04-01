@@ -30,7 +30,7 @@ titles <- c(
     "Precipitation Climatology", 
     "Maximum Temperature Climatology",
     "Minimum Temperature Climatology",
-    "Min an Max Temperatures Climatology"
+    "Min and Max Temperatures Climatology"
 )
 
 # Unidades de la escala:
