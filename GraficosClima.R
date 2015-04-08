@@ -30,18 +30,21 @@ MegaT <- MegaT %>%
     summarise(aApp = mean(mApp), aTmax = mean(mmTmax), aTmin =mean(mmTmin))
 
 # +-------- Rango de las Y, por variable ----------+
-# +--------+-------------+-------------+-----------+
-# |        |   precip    |   Tmax      |   Tmin    |
-yr <- list(c(-3.5, 3.5), c(-1, 1), c(-1, 1))
+# +--------+----------------+------------------+------------------+
+# |        |   precip       |      Tmax        |       Tmin       |
+yr <- list(range(MegaT$aApp),range(MegaT$aTmax),range(MegaT$aTmin))
+# y para las gráficas combinadas de Tmax y Tmin:
+yr[[4]] <- range(yr[2:3])
 
 titles <- c(
     "Precipitation Climatology", 
     "Maximun Temperature Climatology",
-    "Minimum Temperature Climatology"
+    "Minimum Temperature Climatology",
+    "Min and Max Temperature Climatology"
 )
 
 # Unidades de la escala:
-usc <- list("mm" , "°C", "°C")
+usc <- list("mm" , "°C", "°C", "°C")
 
 # Se inicializan los plots 
 graphics.off()
@@ -96,17 +99,16 @@ gpar1 <- list(mar=c(3, 4.1, 0.17, 4.1))
 gnamePP <- paste0(dirGraf, "Clima_PP.pdf") 
 gnameTmax <- paste0(dirGraf, "Clima_Tmax.pdf") 
 gnameTmin <- paste0(dirGraf, "Clima_Tmin.pdf")
+gnameTmp <- paste0(dirGraf, "Clima_Tmp.pdf") # Combinado de temperaturas
 # Los abriré en tal orden que quede el que me interesa como activo:
 pdf(gnamePP, width=7, height=9.11) 
 #YANO>> par(gpar) # los parámetros van por dispositivo
 pdf(gnameTmax, width=7, height=9.11)
 #YANO>> par(gpar)
-pdf(gnameTmin, width=7, height=9.11) # Este es el que quda activo al principio del ciclo (ultimo)
+pdf(gnameTmin, width=7, height=9.11) 
 #YANO>> par(gpar)
+pdf(gnameTmp, width=7, height=9.11) 
 
-
-# Antes de cerrar los dispositivos gráficos se añaden las 
-# leyendas
 for (jj in 1:3) { # Un archivo gráfico por variable
     dev.set(dev.next()) # Un dispositivo 
     # Ahora creamos las ventanas:
@@ -136,7 +138,7 @@ for (jj in 1:3) { # Un archivo gráfico por variable
             select(mes, 2+jj) # El mes y la variable correspondiente
                 
         plot(tt, #>> main=tit,
-             ylab=LETTERS[ii], xlab="", type="b", # ylim=yr[[jj]], 
+             ylab=LETTERS[ii], xlab="", type="b", ylim=yr[[jj]], 
              axes=F, frame=T)
         # abline (h=0, lty="dotdash", lwd=2)
         grid(lwd=1)
@@ -171,5 +173,56 @@ for (jj in 1:3) { # Un archivo gráfico por variable
     #YANO>>        legend=paste0(LETTERS[8:10], ": ", cuencas[8:10]), bty="n")
     #YANO>> text(0.5, 0.1, "CUENCAS", cex=1.5)  
 }
+
+# El gráfico combinado de temperaturas:
+dev.set(dev.next()) # El cuarto dispositivo 
+# Ventana 11
+par(fig=Mm[11,])
+par(gpar)
+plot(c(0,1), c(0,1), ylab="", axes=F, type="n")
+# points(0.5, 0)
+text(0.5, 0.5, titles[4], cex=1.5)
+
+# Para cada cuenca:
+for (ii in 1:nc) { # varía sobre 1..número de cuencas 
+    # La gráfica se dibuja en la ventana correspondiente a la cuenca
+    # que son las numeradas de 1:10 (nc)
+    # Ventanas 1 a 10 (ii):
+    par(fig=Mm[ii,], new=T)
+    par(if (ii==nc) gpar1 else gpar)
+    cc <- cuencas[ii]
+    # Nos interesa la información correspondiente a la cuenca
+    tt <- MegaT %>% 
+        filter(cuenca==cc) %>%
+        ungroup %>% 
+        select(mes, aTmax, aTmin) # El mes y las variables de temperatura
+    
+    plot(tt$aTmax, 
+         ylab=LETTERS[ii], xlab="", type="b", ylim=yr[[4]], 
+         axes=F, frame=T)
+    lines(tt$aTmin, type="b", pch=20)
+    # abline (h=0, lty="dotdash", lwd=2)
+    grid(lwd=1)
+    # tics <- c(yr[[jj]][1], 0, yr[[jj]][2])
+    axis(4, las=2, cex.axis=0.7) # at=tics, lab=tics, 
+    
+    if (ii==nc)
+        axis(1, at=1:12, lab=Meses, las=2)
+}
+# Ventana lateral izquierda
+#YANO>> screen(12); 
+# Ventana 12
+par(fig=Mm[12,], new=T)
+par(mar=c(0.1,0.1,0.1,0.1))
+plot(c(0,1), c(0,1), axes=F, type="n")
+text(0.5, 0.5, "WATERSHEDS", srt=90, cex=1.2)
+# Ventana lateral derecha
+#YANO>> screen(13); 
+# Ventana 13
+par(fig=Mm[13,], new=T)
+par(mar=c(0.1,0.1,0.1,0.1))
+plot(c(0,1), c(0,1), axes=F, type="n")
+text(0.5, 0.5, usc[[4]], srt=90, cex=1.2)
+
 # se cierran todos los dispositivos gráficos:
 graphics.off()
