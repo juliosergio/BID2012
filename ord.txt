@@ -4,5 +4,5 @@
 #        BRAV.. LAJA  LERM-SL LERM-T MOCT.. PAPL.. STG.. SOTO..  VRD.. YAQ..
 # ---------------
 #    Orden DESEADO:
-#        YAQ..  BRAV.. SOTO..  STG  VRD..  LERM-SL LERM-T LAJA  MOCT.. PAPL
-ord <-c(  10  ,  1   ,  8   ,   7 ,   9  ,   3   ,   4  ,  2   ,  5  ,   6 )
+#        YAQ..  BRAV.. SOTO..  VRD..  STG  LERM-SL LERM-T LAJA  MOCT.. PAPL
+ord <-c(  10  ,  1   ,  8   ,   9  ,   7 ,   3   ,   4  ,  2   ,  5  ,   6 )
