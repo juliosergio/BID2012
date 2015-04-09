@@ -86,7 +86,7 @@ for (ii in 1:nc) {
     par(fig=Mm[ii,], new=T)
     par(gpar)
  
-    plot(tt, ylab=LETTERS[ii], xlab="", type="l", xaxt="n")   
+    plot(tt, ylab=letters[ii], xlab="", type="l", xaxt="n")   
 }
 # A text in the left window
 #YANO>> screen(6)

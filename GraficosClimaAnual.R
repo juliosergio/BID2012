@@ -57,7 +57,7 @@ pdf(gnameTemp)
 for (jj in 1:3) { # Un archivo gráfico por variable
     dev.set(dev.next()) # Un dispositivo 
     barplot(MegaT[[1+jj]], main=titles[jj] , 
-            names=LETTERS[1:10], xlab="WATERSHEDS", ylab=usc[jj])
+            names=letters[1:10], xlab="WATERSHEDS", ylab=usc[jj])
     
 }
 # Hacemos el gráfico alterno de temperaturas
@@ -65,7 +65,7 @@ dev.set(dev.next()) # Último dispositivo
 barplot(t(as.matrix(select(MegaT, aTmin:aTmax) %>% mutate(aTmax=aTmax-aTmin))), 
         beside=F,
         main=titles[4], 
-        names=LETTERS[1:10], xlab="WATERSHEDS", ylab=usc[4])
+        names=letters[1:10], xlab="WATERSHEDS", ylab=usc[4])
 
 # se cierran todos los dispositivos gráficos:
 graphics.off()

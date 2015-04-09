@@ -1,0 +1,8 @@
+# Para el orden correcto:
+#    Orden ALFABÉTICO:
+#          1      2      3      4      5      6     7     8       9     10
+#        BRAV.. LAJA  LERM-SL LERM-T MOCT.. PAPL.. STG.. SOTO..  VRD.. YAQ..
+# ---------------
+#    Orden DESEADO:
+#        YAQ..  BRAV.. SOTO..  STG  VRD..  LERM-SL LERM-T LAJA  MOCT.. PAPL
+ord <-c(  10  ,  1   ,  8   ,   7 ,   9  ,   3   ,   4  ,  2   ,  5  ,   6 )

@@ -17,8 +17,7 @@ cuencas <- list.files(bdir) # orden alfabético
 #          1      2      3      4      5      6     7     8       9     10
 #        BRAV.. LAJA  LERM-SL LERM-T MOCT.. PAPL.. STG.. SOTO..  VRD.. YAQ..
 # ---------------
-#        YAQ..  BRAV.. SOTO..  STG  LERM-SL LERM-T MOCT.. LAJA  VRD..  PAPL
-ord <- c( 10  ,  1  ,   8   ,   7  ,   3   ,   4  ,  5  ,  2   ,  9  ,  6 )
+source("ord.txt") # Establece variable "ord" con el orden correcto
 # Reordenamos:
 cuencas <- cuencas[ord]
 

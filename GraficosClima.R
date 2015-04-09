@@ -138,7 +138,7 @@ for (jj in 1:3) { # Un archivo gráfico por variable
             select(mes, 2+jj) # El mes y la variable correspondiente
                 
         plot(tt, #>> main=tit,
-             ylab=LETTERS[ii], xlab="", type="b", ylim=yr[[jj]], 
+             ylab=letters[ii], xlab="", type="b", ylim=yr[[jj]], 
              axes=F, frame=T)
         # abline (h=0, lty="dotdash", lwd=2)
         grid(lwd=1)
@@ -164,13 +164,13 @@ for (jj in 1:3) { # Un archivo gráfico por variable
     text(0.5, 0.5, usc[[jj]], srt=90, cex=1.2)
     #YANO>> abline(h=0.7)
     #YANO>> legend(-0.05, 0.65, 
-    #YANO>>        legend=paste0(LETTERS[1:3], ": ", cuencas[1:3]), bty="n")
+    #YANO>>        legend=paste0(letters[1:3], ": ", cuencas[1:3]), bty="n")
     #YANO>> legend(0.2, 0.65,
-    #YANO>>        legend=paste0(LETTERS[4:5], ": ", cuencas[4:5]), bty="n")
+    #YANO>>        legend=paste0(letters[4:5], ": ", cuencas[4:5]), bty="n")
     #YANO>> legend(0.50, 0.65,
-    #YANO>>        legend=paste0(LETTERS[6:7], ": ", cuencas[6:7]), bty="n")
+    #YANO>>        legend=paste0(letters[6:7], ": ", cuencas[6:7]), bty="n")
     #YANO>> legend(0.8, 0.65,
-    #YANO>>        legend=paste0(LETTERS[8:10], ": ", cuencas[8:10]), bty="n")
+    #YANO>>        legend=paste0(letters[8:10], ": ", cuencas[8:10]), bty="n")
     #YANO>> text(0.5, 0.1, "CUENCAS", cex=1.5)  
 }
 
@@ -198,7 +198,7 @@ for (ii in 1:nc) { # varía sobre 1..número de cuencas
         select(mes, aTmax, aTmin) # El mes y las variables de temperatura
     
     plot(tt$aTmax, 
-         ylab=LETTERS[ii], xlab="", type="b", ylim=yr[[4]], 
+         ylab=letters[ii], xlab="", type="b", ylim=yr[[4]], 
          axes=F, frame=T)
     lines(tt$aTmin, type="b", pch=20)
     # abline (h=0, lty="dotdash", lwd=2)
