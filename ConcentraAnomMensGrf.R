@@ -79,7 +79,7 @@ for (cc in cuencas) {
             gii <- ii - 1 # van de 0 a 2 en este caso
             # una curva en el gráfico por Estación
             tit <- paste0(gt[ii], ":", Meses[mm])
-            stit <- paste0("Cuenca: ", cc)
+            stit <- paste0("Watershed: ", cc)
             for (jj in 1:length(Ests)) {
                 ee <- Ests[jj]
                 # La subtabla correspondiente:
@@ -95,7 +95,7 @@ for (cc in cuencas) {
             par(xpd=T)
             legend("topright", inset=c(-0.17,0.2),
                    legend=Ests, col=colores, pch=16,
-                   title="Estaciones", bty="n")
+                   title="Stations", bty="n")
             par(xpd=F)
             # se cierra dispositivo gráfico
             dev.off()
