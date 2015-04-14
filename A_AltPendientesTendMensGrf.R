@@ -34,7 +34,7 @@ fff <- function (x, y) {
 # La gran tabla que incluye "todo":
 #    ya no se leerá de un archivo de texto con read.table
 #REMOVED>> MegaT <-  tbl_df(read.table(fname, header=T))
-load(fname) # Contiene MegaT generada con   HacerMegaTabla.R
+load(fname) # Contiene MegaT generada con   AltHacerMegaTabla.R
 # Averiguamos las cuencas
 cuencas <- levels(MegaT$cuenca)
 nc <- length(cuencas)
