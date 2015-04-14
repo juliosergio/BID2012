@@ -77,10 +77,10 @@ write.csv(ttt, file=paste0(dirGraf, "AltCorr_Tmax_vs_Precip.csv"))
 yr <- list(c(-3.5, 3.5) ,  c(-1, 1) ,  c(-1, 1), c(-1, 1))
 
 titles <- c(
-    "Precipitation Tendency", 
+    "", 
     "Maximun Temperature Tendency",
     "Minimum Temperature Tendency",
-    "Min and Max Temperature Tendency"
+    ""
 )
 
 # Unidades de la escala:
@@ -200,10 +200,10 @@ for (jj in 1:3) { # Un archivo gráfico por variable
     # Ventana lateral izquierda
     #YANO>> screen(12); 
     # Ventana 12
-    par(fig=Mm[12,], new=T)
-    par(mar=c(0.1,0.1,0.1,0.1))
-    plot(c(0,1), c(0,1), axes=F, type="n")
-    text(0.5, 0.5, "WATERSHEDS", srt=90, cex=1.2)
+    #(Por Articulo)--YANO>>par(fig=Mm[12,], new=T)
+    #(Por Articulo)--YANO>>par(mar=c(0.1,0.1,0.1,0.1))
+    #(Por Articulo)--YANO>>plot(c(0,1), c(0,1), axes=F, type="n")
+    #(Por Articulo)--YANO>>text(0.5, 0.5, "WATERSHEDS", srt=90, cex=1.2)
     # Ventana lateral derecha
     #YANO>> screen(13); 
     # Ventana 13
@@ -260,10 +260,10 @@ for (ii in 1:nc) { # varía sobre 1..número de cuencas
 # Ventana lateral izquierda
 #YANO>> screen(12); 
 # Ventana 12
-par(fig=Mm[12,], new=T)
-par(mar=c(0.1,0.1,0.1,0.1))
-plot(c(0,1), c(0,1), axes=F, type="n")
-text(0.5, 0.5, "WATERSHEDS", srt=90, cex=1.2)
+#(Por Articulo)--YANO>>par(fig=Mm[12,], new=T)
+#(Por Articulo)--YANO>>par(mar=c(0.1,0.1,0.1,0.1))
+#(Por Articulo)--YANO>>plot(c(0,1), c(0,1), axes=F, type="n")
+#(Por Articulo)--YANO>>text(0.5, 0.5, "WATERSHEDS", srt=90, cex=1.2)
 # Ventana lateral derecha
 #YANO>> screen(13); 
 # Ventana 13
