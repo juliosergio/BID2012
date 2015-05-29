@@ -35,6 +35,8 @@ MegaT <- MegaT %>%
 yr <- list(range(MegaT$aApp),range(MegaT$aTmax),range(MegaT$aTmin))
 # y para las gráficas combinadas de Tmax y Tmin:
 yr[[4]] <- range(yr[2:3])
+# rangos exclusivamente para las preccipitaciones:
+yppr <- list(c(0,160), c(0,250))
 
 titles <- c(
     "", 
@@ -136,9 +138,21 @@ for (jj in 1:3) { # Un archivo gráfico por variable
             filter(cuenca==cc) %>%
             ungroup %>% 
             select(mes, 2+jj) # El mes y la variable correspondiente
-                
+        
+        # rangos de las Ys
+        if (jj > 1) { # No es la precipitación
+            rr <- yr[[jj]]
+        } else { # precipitaciones: rangos por cuencas
+            if (ii <= 3) # cuencas de la 1 a la 3
+                rr <- yppr[[1]]
+            else if (ii <= 9) # cuencas de la 4 a la 9
+                rr <- yppr[[2]] 
+            else
+                rr <- yr[[jj]] # La cuenca 10 se queda como estaba
+        }
+        
         plot(tt, #>> main=tit,
-             ylab=letters[ii], xlab="", type="b", ylim=yr[[jj]], 
+             ylab=letters[ii], xlab="", type="b", ylim=rr, 
              axes=F, frame=T)
         # abline (h=0, lty="dotdash", lwd=2)
         grid(lwd=1)
