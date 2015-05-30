@@ -56,7 +56,7 @@ for (ii in 1:nc) {
 for (nn in names(ll)) {
     rr <- ll[[nn]]
     rownames(rr) <- NULL
-    write.table(rr, paste0(glob, "/", "MK-", nn, ".txt"))
+    write.table(rr, paste0(glob, "/", "MK-", nn, ".txt"), row.names=F)
 }
 
 
