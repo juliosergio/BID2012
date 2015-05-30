@@ -71,10 +71,13 @@ ttt <- ttrr %>% ungroup %>%
 # Escribimos a un archivo
 write.csv(ttt, file=paste0(dirGraf, "AltCorr_Tmax_vs_Precip.csv"))
 
+
 # +-------- Rango de las Y, por variable ----------+
-# +--------+------------+-----------+----------+---------+
-# |        |   precip   |   Tmax    |   Tmin   |   Tmp   |
-yr <- list(c(-3.5, 3.5) ,  c(-1, 1) ,  c(-1, 1), c(-1, 1))
+rr <- range(c(range(ttrr$aTmax),range(ttrr$aTmin)))
+# +--------+---------------+-----------+----------+---------+
+# |        |     precip    |   Tmax    |   Tmin   |   Tmp   |
+yr <- list(  c(-0.3, 0.2)  ,    rr     ,  rr      ,   rr    )
+# yr <- list(range(ttrr$aApp),    rr     ,  rr      ,   rr    )
 
 titles <- c(
     "", 
@@ -84,11 +87,11 @@ titles <- c(
 )
 
 # Unidades de la escala:
-usc <- list(
-    expression(paste("% ",  Year^-1)), 
-    expression("°C per decade"),
-    expression("°C per decade"),
-    expression("°C per decade")
+usc <- list( "", "", "", ""
+    #expression(paste("% ",  Year^-1)), 
+    #expression("°C per decade"),
+    #expression("°C per decade"),
+    #expression("°C per decade")
 )
 
 # Se inicializan los plots 

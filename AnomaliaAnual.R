@@ -32,9 +32,16 @@ for (cc in cuencas) {
         # La operación de resta, agrupada por (anio: --12 meses--)
         tt <- tt %>% 
             mutate(
-                ppAcc =  100*(ppAcc - tclima$mApp)/tclima$mApp, # Esta va en %
-                mTmax =  (mTmax - tclima$mmTmax)*10, # Por década
-                mTmin =  (mTmin - tclima$mmTmin)*10  # Por década
+                # SE USARAN ANOMALIAS ESTANDARIZADAS (div por sd) y por década
+                #CAMBIA>> ppAcc =  100*(ppAcc - tclima$mApp)/tclima$mApp, # Esta va en %
+                # POR:
+                ppAcc =  10*(ppAcc - tclima$mApp)/tclima$sdApp,
+                #CAMBIA>> mTmax =  (mTmax - tclima$mmTmax)*10, # Por década
+                # POR:
+                mTmax =  10*(mTmax - tclima$mmTmax)/tclima$sdTmax, 
+                #CAMBIA>> mTmin =  (mTmin - tclima$mmTmin)*10  # Por década
+                # POR:
+                mTmin =  10*(mTmin - tclima$mmTmin)/tclima$sdTmin
             )
         # Nuevo nombre del archivo:
         postfijo <- "_AnomAnual.txt"

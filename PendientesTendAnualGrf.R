@@ -74,11 +74,11 @@ titles <- c(
 )
 
 # Unidades de la escala:
-usc <- list(
-    expression(paste("% ",  Year^-1)), 
-    expression("°C per decade"),
-    expression("°C per decade"),
-    expression("°C per decade")   
+usc <- list( "", "", "", ""
+    #expression(paste("% ",  Year^-1)), 
+    #expression("°C per decade"),
+    #expression("°C per decade"),
+    #expression("°C per decade")   
 )
 
 # Se inicializan los plots 
