@@ -70,7 +70,9 @@ voronoipolygons <- function(v, bb, fe=0.25) {
 PonderaVoronoi <- function(VrtxSet, Enclosing) {
     # Dado un conjunto de Vertices (VrtxSet), en un área que los
     # contiene (Enclosing), encuentra los pesos asignados a cada vértice
-    # de acuerdo a una partición de Voronoi
+    # de acuerdo a una partición de Voronoi.
+    # El resultado se entrega simplemente como un vector numérico (cuya suma
+    # sera 1), con los pesos, en orden, correspondientes a cada vértice.
     
     Enclosing <- HacerSPoly(Enclosing, "cc-")
     A <- gArea(Enclosing)
@@ -79,14 +81,24 @@ PonderaVoronoi <- function(VrtxSet, Enclosing) {
     # Se hace la intersección:
     ii <- gIntersection(Enclosing, voronoiPolis, byid = T)
     cca <<- Enclosing
-    vvp <<- ii   
-    sapply(ii@polygons, function(elt) elt@Polygons[[1]]@area)/A
+    vvp <<- ii  
+    
+    #ERRONEO> sapply(ii@polygons, function(elt) elt@Polygons[[1]]@area)/A
+    #ERRONEO> ya que al recortar contra la cuenca un poligono de voronoi
+    #         pudiera haber quedado dividido en varios (sub)polígonos, y
+    #         el código anterior solamente tomaría el primero.
+    #  Lo correcto es:
+    sapply(ii@polygons, function(elt) elt@area)/A
 }
 
 cca <- NULL
 vvp <- NULL
 
 test <- function() {
+    # Los datos de entrada son matrices, cuyas columnas
+    # corresponden a cada una de las coordenadas en
+    # cuestion: x, y, ...
+    
     cc <- cbind(x=c(0, 2, 3, 4,  4, 1, 0), 
                 y=c(0, 0, 1, 1,3.5, 4, 2))
     vv <- cbind(x=c(1.5,  2, 2.5),
