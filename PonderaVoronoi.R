@@ -41,7 +41,7 @@ voronoipolygons <- function(v, bb, fe=0.25) {
     # fe: factor de expansión del bounding box, esto es lo que aumenta
     #     en cada extremo.
     # ---------------------------------
-    # coordenadas de los vértices:
+    # coordenadas de los vértices: 
     crds <- if (.hasSlot(v, 'coords')) v@coords else v
     rw = expandbb(bb, fe)
     z <- deldir(crds[,1], crds[,2],rw=rw)
@@ -74,6 +74,8 @@ PonderaVoronoi <- function(VrtxSet, Enclosing) {
     # El resultado se entrega simplemente como un vector numérico (cuya suma
     # sera 1), con los pesos, en orden, correspondientes a cada vértice.
     
+    # Caso trivial: un solo vértice
+    if (length(VrtxSet)==1) return (1)
     Enclosing <- HacerSPoly(Enclosing, "cc-")
     A <- gArea(Enclosing)
     voronoiPolis <- voronoipolygons(VrtxSet, bbox(Enclosing))
@@ -90,6 +92,7 @@ PonderaVoronoi <- function(VrtxSet, Enclosing) {
     #  Lo correcto es:
     sapply(ii@polygons, function(elt) elt@area)/A
 }
+
 
 cca <- NULL
 vvp <- NULL
