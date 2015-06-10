@@ -12,6 +12,11 @@ glob <- "GLOBAL" # En este se guardará la MegaTabla
 fname <- paste0(glob, "/AltMegaTabla.RData")
 dirGraf <- paste0(glob, "/GRAFICOS/PendientesMensual/") # Directorio de gráficos
 
+# Directorio de cuencas:
+dirCC <- "CUENCAS/"
+source("promCuenca.R")
+
+
 #YANO>> Meses <- c("Ene","Feb","Mar","Abr","May","Jun",
 #YANO>>            "Jul","Ago","Sep","Oct","Nov","Dic")
 Meses <- month.abb
@@ -26,13 +31,18 @@ load(fname) # Contiene MegaT generada con   AltHacerMegaTabla.R
 cuencas <- levels(MegaT$cuenca)
 nc <- length(cuencas)
 
+
 # =================================================
 # MÉDULA DE LOS CÁLCULOS
 # Agrupemos por (mes, cuenca, anio) y hagamos el 
 # resumen de los datos
 MegaT <- MegaT %>% 
     group_by(mes, cuenca, anio) %>% 
-    summarise(ppAcc = mean(ppAcc), mTmax = mean(mTmax), mTmin =mean(mTmin))
+    summarise(
+        ppAcc = promCuenca(cuenca, est, ppAcc), 
+        mTmax = promCuenca(cuenca, est, mTmax), 
+        mTmin = promCuenca(cuenca, est, mTmin)
+    )
 
 ff <- function(ss) {
     # Aplica Mann-Kendall a una serie de tiempo y 
