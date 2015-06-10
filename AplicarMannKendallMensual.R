@@ -67,6 +67,9 @@ for (nn in names(ll)) {
     rr <- ll[[nn]]
     rownames(rr) <- NULL
     write.table(rr, paste0(glob, "/", "MK-", nn, ".txt"), row.names=F)
+    # Además filtraremos la tabla por pvalue < 0.05
+    rr <- rr[rr[,"pvalue"] < 0.05,]
+    write.table(rr, paste0(glob, "/", "MK-", nn, "-FILTERED.txt"), row.names=F)
 }
 
 
