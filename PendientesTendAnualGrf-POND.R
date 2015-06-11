@@ -1,5 +1,5 @@
 #====================================
-# PendientesTendAnualGrf.R
+# PendientesTendAnualGrf-POND.R
 #
 #   Calcula las tendencias
 #   en las anomalias anuales, y
@@ -12,6 +12,11 @@ library(dplyr)
 glob <- "GLOBAL" # En este se guardará la MegaTabla
 fname <- paste0(glob, "/MegaTAnual.RData")
 dirGraf <- paste0(glob, "/GRAFICOS/PendientesAnual/") # Directorio de gráficos
+
+# Directorio de cuencas:
+dirCC <- "CUENCAS/"
+source("promCuenca.R")
+
 
 # +--- ***FUNCIÓN DE MODELO*** ---+
 # |        usando dplyr           |
@@ -40,7 +45,12 @@ nc <- length(cuencas)
 # resumen de los datos
 MegaT <- MegaT %>% 
     group_by(cuenca, anio) %>% 
-    summarise(ppAcc = mean(ppAcc), mTmax = mean(mTmax), mTmin =mean(mTmin))
+    summarise(
+        ppAcc = promCuenca(cuenca, est, ppAcc), 
+        mTmax = promCuenca(cuenca, est, mTmax), 
+        mTmin = promCuenca(cuenca, est, mTmin)
+    )
+
 # =================================================
 # +----- ***USARE ESTA ALTERNATIVA*** ------+
 # |               usando dplyr              |    
@@ -86,11 +96,11 @@ graphics.off()
 
 # Se abrirán tres dispositivos gráficos (archivos pdf), cuyos
 # nombres estarán compuestos por c/variable
-gnamePP <- paste0(dirGraf, "Pend_Tnd_PP.pdf") 
-gnameTmax <- paste0(dirGraf, "Pend_Tnd_Tmax.pdf") 
-gnameTmin <- paste0(dirGraf, "Pend_Tnd_Tmin.pdf")
+gnamePP <- paste0(dirGraf, "Pend_Tnd_PP-POND.pdf") 
+gnameTmax <- paste0(dirGraf, "Pend_Tnd_Tmax-POND.pdf") 
+gnameTmin <- paste0(dirGraf, "Pend_Tnd_Tmin-POND.pdf")
 # Alternativamente: -- tendencias de temperatura anual combinado --
-gnameTemp <- paste0(dirGraf, "AltPend_Tnd_Tmp.pdf")
+gnameTemp <- paste0(dirGraf, "AltPend_Tnd_Tmp-POND.pdf")
 # Los abriré en tal orden que quede el que me interesa como activo:
 pdf(gnamePP) 
 pdf(gnameTmax)

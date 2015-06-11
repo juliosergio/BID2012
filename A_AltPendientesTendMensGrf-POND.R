@@ -57,6 +57,12 @@ MegaT <- MegaT %>%
         mTmax = promCuenca(cuenca, est, mTmax), 
         mTmin = promCuenca(cuenca, est, mTmin)
     )
+
+# ============ Calculos de Mann-Kendall ===========
+
+source("AplicarMannKendallMensual.R")
+
+
 # =================================================
 # +----- ***USARE ESTA ALTERNATIVA*** ------+
 # |               usando dplyr              |    
