@@ -1,8 +1,8 @@
 #====================================
-# GraficosClimaAnual.R
+# GraficosClimaAnual-POND.R
 #
 #   Hace el concentrado de gráficos
-#   de clima
+#   de clima (medias ponderadas)
 #====================================
 library(dplyr)
 
@@ -10,6 +10,10 @@ library(dplyr)
 glob <- "GLOBAL" # En este se guardará la MegaTabla
 fname <- paste0(glob, "/MegaTClimaAnual.RData")
 dirGraf <- paste0(glob, "/GRAFICOS/ClimaAnual/") # Directorio de gráficos
+
+# Directorio de cuencas:
+dirCC <- "CUENCAS/"
+source("promCuenca.R")
 
 # La gran tabla que incluye "todo":
 load(fname) # Contiene MegaT generada con   HacerMegaTClima.R
@@ -23,7 +27,12 @@ nc <- length(cuencas)
 # resumen de los datos
 MegaT <- MegaT %>% 
     group_by( cuenca ) %>% 
-    summarise(aApp = mean(mApp), aTmax = mean(mmTmax), aTmin =mean(mmTmin))
+    #    summarise(aApp = mean(mApp), aTmax = mean(mmTmax), aTmin =mean(mmTmin))
+    summarise(
+        aApp = promCuenca(cuenca, est, mApp), 
+        aTmax = promCuenca(cuenca, est, mmTmax), 
+        aTmin = promCuenca(cuenca, est, mmTmin)
+    )
 
 
 titles <- c(
@@ -40,11 +49,11 @@ usc <- list("mm" , "°C", "°C", "°C")
 graphics.off()
 # Se abrirán tres dispositivos gráficos (archivos pdf), cuyos
 # nombres estarán compuestos por c/variable
-gnamePP <- paste0(dirGraf, "ClimaAnual_PP.pdf") 
-gnameTmax <- paste0(dirGraf, "ClimaAnual_Tmax.pdf") 
-gnameTmin <- paste0(dirGraf, "ClimaAnual_Tmin.pdf")
+gnamePP <- paste0(dirGraf, "ClimaAnual_PP-POND.pdf") 
+gnameTmax <- paste0(dirGraf, "ClimaAnual_Tmax-POND.pdf") 
+gnameTmin <- paste0(dirGraf, "ClimaAnual_Tmin-POND.pdf")
 # Alternativamente: -- cllima anual combinado --
-gnameTemp <- paste0(dirGraf, "AltClimaAnual_Tmp.pdf")
+gnameTemp <- paste0(dirGraf, "AltClimaAnual_Tmp-POND.pdf")
 # Los abriré en tal orden que quede el que me interesa como activo:
 pdf(gnamePP) 
 pdf(gnameTmax)
