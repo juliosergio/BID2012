@@ -1,10 +1,10 @@
 #====================================
-# AplicarMannKendallMensual.R
+# AplicarMannKendallAnual.R
 #
 #   Calcula los índices de Mann-Kendall
-#   en las anomalias mensuales, 
+#   en las anomalias anuales, 
 # Este archivo será "sourced" 
-# en A_AltPendientesTendMensGrf-POND.R
+# en PendientesTendAnualGrf-POND.R
 #====================================
 #REMOVED-BECAUSE-sourced> library(dplyr)
 library(Kendall)
@@ -56,22 +56,20 @@ ff <- function(ss) {
 ll <- list(Prec=NULL, Tmax=NULL, Tmin=NULL)
 for (ii in 1:nc) {
     cc <- cuencas[ii]
-    for (m in 1:12) {
-        tt <- MegaT %>% filter(cuenca==cc, mes==m)
-        for (vv in 4:6) { # variables
-            mk <- c(cuenca=ii, mes=m, ff(tt[[vv]]))
-            ll[[vv-3]] <- rbind(ll[[vv-3]], mk)
-        }     
-    }
+    tt <- MegaT %>% filter(cuenca==cc)
+    for (vv in 3:5) { # variables
+        mk <- c(cuenca=ii, ff(tt[[vv]]))
+        ll[[vv-2]] <- rbind(ll[[vv-2]], mk)
+    }     
 }
 
 for (nn in names(ll)) {
     rr <- ll[[nn]]
     rownames(rr) <- NULL
-    write.table(rr, paste0(glob, "/", "MK-", nn, ".txt"), row.names=F)
+    write.table(rr, paste0(glob, "/", "MK-", nn, "-Anual.txt"), row.names=F)
     # Además filtraremos la tabla por pvalue < 0.05
     rr <- rr[rr[,"pvalue"] < 0.05,]
-    write.table(rr, paste0(glob, "/", "MK-", nn, "-FILTERED.txt"), row.names=F)
+    write.table(rr, paste0(glob, "/", "MK-", nn, "-Anual-FILTERED.txt"), row.names=F)
 }
 
 
