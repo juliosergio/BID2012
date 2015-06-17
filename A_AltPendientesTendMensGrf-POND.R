@@ -93,7 +93,7 @@ write.csv(ttt, file=paste0(dirGraf, "AltCorr_Tmax_vs_Precip-POND.csv"))
 rr <- range(c(range(ttrr$aTmax),range(ttrr$aTmin)))
 # +--------+---------------+-----------+----------+---------+
 # |        |     precip    |   Tmax    |   Tmin   |   Tmp   |
-yr <- list(  c(-0.3, 0.2)  ,    rr     ,  rr      ,   rr    )
+yr <- list(  c(-0.3, 0.3)  ,    rr     ,  rr      ,   rr    )
 # yr <- list(range(ttrr$aApp),    rr     ,  rr      ,   rr    )
 
 titles <- c(
@@ -162,10 +162,10 @@ gpar1 <- list(mar=c(3, 4.1, 0.17, 4.1))
 
 # Se abrirán tres dispositivos gráficos (archivos pdf), cuyos
 # nombres estarán compuestos por c/variable
-gnamePP <- paste0(dirGraf, "A_AltPend_Tnd_PP-POND.pdf") 
-gnameTmax <- paste0(dirGraf, "A_AltPend_Tnd_Tmax-POND.pdf") 
-gnameTmin <- paste0(dirGraf, "A_AltPend_Tnd_Tmin-POND.pdf")
-gnameTmp <- paste0(dirGraf, "A_AltPend_Tnd_Tmp-POND.pdf")
+gnamePP <- paste0(dirGraf, "A_AltPend_Tnd_PP-POND.pdf")     # dev = 2
+gnameTmax <- paste0(dirGraf, "A_AltPend_Tnd_Tmax-POND.pdf") # dev = 3
+gnameTmin <- paste0(dirGraf, "A_AltPend_Tnd_Tmin-POND.pdf") # dev = 4
+gnameTmp <- paste0(dirGraf, "A_AltPend_Tnd_Tmp-POND.pdf")   # dev = 5
 gnameDTR <- paste0(dirGraf, "DTR-POND.pdf")
 
 
@@ -181,8 +181,9 @@ pdf(gnameTmp, width=7, height=9.11) # Combinado de temperaturas
 pdf(gnameDTR, width=7, height=9.11) # Diferencias DTR de temperaturas
 
 
+
 for (jj in 1:3) { # Un archivo gráfico por variable
-    dev.set(dev.next()) # Un dispositivo 
+    dev.set(dev.next()) # Un dispositivo (dev = 2, 3, 4)
     # Ahora creamos las ventanas:
     #YANO>> split.screen(Mm) # Divide todo el espacio del dispositivo
     # En la ventana superior (11) va el título:
@@ -210,6 +211,8 @@ for (jj in 1:3) { # Un archivo gráfico por variable
             select(mes, 2+jj) # El mes y la variable correspondiente
         
         # tit <- if(ii==1) titles[jj] else ""
+        
+        # etq <- letters[ii]
         
         plot(tt, #>> main=tit,
              ylab=letters[ii], xlab="", type="b", ylim=yr[[jj]], axes=F,
@@ -248,7 +251,7 @@ for (jj in 1:3) { # Un archivo gráfico por variable
     #YANO>> text(0.5, 0.1, "CUENCAS", cex=1.5)  
 }
 # El gráfico combinado de temperaturas:
-dev.set(dev.next()) # El cuarto dispositivo 
+dev.set(dev.next()) # El cuarto dispositivo (dev = 5)
 # Ventana 11
 par(fig=Mm[11,])
 par(gpar)
@@ -274,7 +277,7 @@ for (ii in 1:nc) { # varía sobre 1..número de cuencas
          ylab=letters[ii], xlab="", type="b", ylim=yr[[4]], 
          axes=F, frame=T)
     lines(tt$aTmin, type="b", pch=20)
-    # abline (h=0, lty="dotdash", lwd=2)
+    abline (h=0, lty="dotdash", lwd=2)
     grid(lwd=1)
     # tics <- c(yr[[jj]][1], 0, yr[[jj]][2])
     axis(4, las=2, cex.axis=0.7) # at=tics, lab=tics, 
@@ -298,14 +301,19 @@ plot(c(0,1), c(0,1), axes=F, type="n")
 text(0.5, 0.5, usc[[4]], srt=90, cex=1.2)
 
 # ============= DTR graficos ========================
-# El gráfico combinado de temperaturas:
-dev.set(dev.next()) # El cuarto dispositivo 
+# El gráfico se añadirá al gráfico de precipitaciones
+# que es el dispositivo No. 2 
+#>> dev.set(dev.next()) 
+dev.set(2) # Gráfico de precipitaciones
+# La gráfica se encimará a la de precipitaciones
+par(new = TRUE) # para añadir gráficos
 # Ventana 11
-par(fig=Mm[11,])
-par(gpar)
-plot(c(0,1), c(0,1), ylab="", axes=F, type="n")
+#NO-SE-REQUIERE>> par(fig=Mm[11,])
+#NO-SE-REQUIERE>> par(gpar)
+#NO-SE-REQUIERE>> plot(c(0,1), c(0,1), ylab="", axes=F, type="n")
 # points(0.5, 0)
-text(0.5, 0.5, titles[5], cex=1.5)
+#NO-SE-REQUIERE>> text(0.5, 0.5, titles[5], cex=1.5)
+
 
 # Para cada cuenca:
 for (ii in 1:nc) { # varía sobre 1..número de cuencas 
@@ -322,15 +330,16 @@ for (ii in 1:nc) { # varía sobre 1..número de cuencas
         select(mes, aTmax, aTmin) # El mes y las variables de temperatura
     
     plot(tt$aTmax - tt$aTmin, 
-         ylab=letters[ii], xlab="", type="b", #>> ylim=yr[[4]], 
-         axes=F, frame=T)
+         ylab="", 
+         xlab="", type="b", ylim=c(-0.5,0.5), 
+         frame=T, pch=17, axes=F)
     # abline (h=0, lty="dotdash", lwd=2)
-    grid(lwd=1)
+    #>> grid(lwd=1)
     # tics <- c(yr[[jj]][1], 0, yr[[jj]][2])
-    axis(4, las=2, cex.axis=0.7) # at=tics, lab=tics, 
+    axis(2, las=2, cex.axis=0.7) # at=tics, lab=tics, 
     
-    if (ii==nc)
-        axis(1, at=1:12, lab=Meses, las=2)
+    #NO-SE-REQUIERE>> if (ii==nc)
+    #NO-SE-REQUIERE>>     axis(1, at=1:12, lab=Meses, las=2)
 }
 # Ventana lateral izquierda
 #YANO>> screen(12); 
@@ -342,12 +351,10 @@ for (ii in 1:nc) { # varía sobre 1..número de cuencas
 # Ventana lateral derecha
 #YANO>> screen(13); 
 # Ventana 13
-par(fig=Mm[13,], new=T)
-par(mar=c(0.1,0.1,0.1,0.1))
-plot(c(0,1), c(0,1), axes=F, type="n")
-text(0.5, 0.5, usc[[5]], srt=90, cex=1.2)
-
-
+#NO-SE-REQUIERE>> par(fig=Mm[13,], new=T)
+#NO-SE-REQUIERE>> par(mar=c(0.1,0.1,0.1,0.1))
+#NO-SE-REQUIERE>> plot(c(0,1), c(0,1), axes=F, type="n")
+#NO-SE-REQUIERE>> text(0.5, 0.5, usc[[5]], srt=90, cex=1.2)
 
 # se cierran todos los dispositivos gráficos:
 graphics.off()
