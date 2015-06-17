@@ -100,11 +100,12 @@ titles <- c(
     "", 
     "Maximun Temperature Tendency",
     "Minimum Temperature Tendency",
+    "",
     ""
 )
 
 # Unidades de la escala:
-usc <- list( "", "", "", ""
+usc <- list( "", "", "", "", ""
     #expression(paste("% ",  Year^-1)), 
     #expression("°C per decade"),
     #expression("°C per decade"),
@@ -165,6 +166,7 @@ gnamePP <- paste0(dirGraf, "A_AltPend_Tnd_PP-POND.pdf")
 gnameTmax <- paste0(dirGraf, "A_AltPend_Tnd_Tmax-POND.pdf") 
 gnameTmin <- paste0(dirGraf, "A_AltPend_Tnd_Tmin-POND.pdf")
 gnameTmp <- paste0(dirGraf, "A_AltPend_Tnd_Tmp-POND.pdf")
+gnameDTR <- paste0(dirGraf, "DTR-POND.pdf")
 
 
 # Los abriré en tal orden que quede el que me interesa como activo:
@@ -175,6 +177,9 @@ pdf(gnameTmax, width=7, height=9.11)
 pdf(gnameTmin, width=7, height=9.11) 
 #YANO>> par(gpar)
 pdf(gnameTmp, width=7, height=9.11) # Combinado de temperaturas
+
+pdf(gnameDTR, width=7, height=9.11) # Diferencias DTR de temperaturas
+
 
 for (jj in 1:3) { # Un archivo gráfico por variable
     dev.set(dev.next()) # Un dispositivo 
@@ -291,6 +296,57 @@ par(fig=Mm[13,], new=T)
 par(mar=c(0.1,0.1,0.1,0.1))
 plot(c(0,1), c(0,1), axes=F, type="n")
 text(0.5, 0.5, usc[[4]], srt=90, cex=1.2)
+
+# ============= DTR graficos ========================
+# El gráfico combinado de temperaturas:
+dev.set(dev.next()) # El cuarto dispositivo 
+# Ventana 11
+par(fig=Mm[11,])
+par(gpar)
+plot(c(0,1), c(0,1), ylab="", axes=F, type="n")
+# points(0.5, 0)
+text(0.5, 0.5, titles[5], cex=1.5)
+
+# Para cada cuenca:
+for (ii in 1:nc) { # varía sobre 1..número de cuencas 
+    # La gráfica se dibuja en la ventana correspondiente a la cuenca
+    # que son las numeradas de 1:10 (nc)
+    # Ventanas 1 a 10 (ii):
+    par(fig=Mm[ii,], new=T)
+    par(if (ii==nc) gpar1 else gpar)
+    cc <- cuencas[ii]
+    # Nos interesa la información correspondiente a la cuenca
+    tt <- ttrr %>% 
+        filter(cuenca==cc) %>%
+        ungroup %>% 
+        select(mes, aTmax, aTmin) # El mes y las variables de temperatura
+    
+    plot(tt$aTmax - tt$aTmin, 
+         ylab=letters[ii], xlab="", type="b", #>> ylim=yr[[4]], 
+         axes=F, frame=T)
+    # abline (h=0, lty="dotdash", lwd=2)
+    grid(lwd=1)
+    # tics <- c(yr[[jj]][1], 0, yr[[jj]][2])
+    axis(4, las=2, cex.axis=0.7) # at=tics, lab=tics, 
+    
+    if (ii==nc)
+        axis(1, at=1:12, lab=Meses, las=2)
+}
+# Ventana lateral izquierda
+#YANO>> screen(12); 
+# Ventana 12
+#(Por Articulo)--YANO>>par(fig=Mm[12,], new=T)
+#(Por Articulo)--YANO>>par(mar=c(0.1,0.1,0.1,0.1))
+#(Por Articulo)--YANO>>plot(c(0,1), c(0,1), axes=F, type="n")
+#(Por Articulo)--YANO>>text(0.5, 0.5, "WATERSHEDS", srt=90, cex=1.2)
+# Ventana lateral derecha
+#YANO>> screen(13); 
+# Ventana 13
+par(fig=Mm[13,], new=T)
+par(mar=c(0.1,0.1,0.1,0.1))
+plot(c(0,1), c(0,1), axes=F, type="n")
+text(0.5, 0.5, usc[[5]], srt=90, cex=1.2)
+
 
 
 # se cierran todos los dispositivos gráficos:
