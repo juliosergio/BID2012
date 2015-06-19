@@ -63,12 +63,15 @@ for (ii in 1:nc) {
     }     
 }
 
+pv <- c(0.3, 0.1, 0.1) # Prec, Tmax, Tmin
+names(pv) <- names(ll)
+
 for (nn in names(ll)) {
     rr <- ll[[nn]]
     rownames(rr) <- NULL
     write.table(rr, paste0(glob, "/", "MK-", nn, "-Anual.txt"), row.names=F)
-    # Además filtraremos la tabla por pvalue < 0.05
-    rr <- rr[rr[,"pvalue"] < 0.05,]
+    # Además filtraremos la tabla por pvalue < umbral
+    rr <- rr[rr[,"pvalue"] < pv[nn],]
     write.table(rr, paste0(glob, "/", "MK-", nn, "-Anual-FILTERED.txt"), row.names=F)
 }
 
