@@ -61,6 +61,8 @@ MegaT <- MegaT %>%
 # ============ Calculos de Mann-Kendall ===========
 
 source("AplicarMannKendallMensual.R")
+# Información generada aquí viene en la 
+# lista ll
 
 
 # =================================================
@@ -195,6 +197,9 @@ for (jj in 1:3) { # Un archivo gráfico por variable
     # points(0.5, 0)
     text(0.5, 0.5, titles[jj], cex=1.5)
     
+    # Para incluir la calificación de Mann-Kendall (significancia)
+    rr <- tbl_df(as.data.frame(ll[[jj]])) # La lista va por variables
+    
     # Para cada cuenca:
     for (ii in 1:nc) { # varía sobre 1..número de cuencas 
         # La gráfica se dibuja en la ventana correspondiente a la cuenca
@@ -214,8 +219,11 @@ for (jj in 1:3) { # Un archivo gráfico por variable
         
         # etq <- letters[ii]
         
+        # Uso de información Mann-Kendall:
+        MK <- (rr %>% filter(cuenca==ii))$mes # conjunto de meses p/código numérico de la cuenca
+        bolitas <- as.integer(1:12 %in% MK) + 1 # Tamaño de símbolos 1 o 2
         plot(tt, #>> main=tit,
-             ylab=letters[ii], xlab="", type="b", ylim=yr[[jj]], axes=F,
+             ylab=letters[ii], cex=bolitas, xlab="", type="b", ylim=yr[[jj]], axes=F,
              frame=T)
         abline (h=0, lty="dotdash", lwd=2)
         grid(lwd=1)
@@ -259,6 +267,11 @@ plot(c(0,1), c(0,1), ylab="", axes=F, type="n")
 # points(0.5, 0)
 text(0.5, 0.5, titles[4], cex=1.5)
 
+# Para incluir la calificación de Mann-Kendall (significancia)
+r2 <- tbl_df(as.data.frame(ll[[2]])) # La lista va por variables: 2=Tmax
+r3 <- tbl_df(as.data.frame(ll[[3]])) # La lista va por variables: 3=Tmin
+
+
 # Para cada cuenca:
 for (ii in 1:nc) { # varía sobre 1..número de cuencas 
     # La gráfica se dibuja en la ventana correspondiente a la cuenca
@@ -273,10 +286,19 @@ for (ii in 1:nc) { # varía sobre 1..número de cuencas
         ungroup %>% 
         select(mes, aTmax, aTmin) # El mes y las variables de temperatura
     
+    # Uso de información Mann-Kendall:
+    MK <- (r2 %>% filter(cuenca==ii))$mes # conjunto de meses p/código numérico de la cuenca
+    bolitas <- as.integer(1:12 %in% MK) + 1 # Tamaño de símbolos 1 o 2
+    
     plot(tt$aTmax, 
-         ylab=letters[ii], xlab="", type="b", ylim=yr[[4]], 
+         ylab=letters[ii], cex=bolitas, xlab="", type="b", ylim=yr[[4]], 
          axes=F, frame=T)
-    lines(tt$aTmin, type="b", pch=20)
+    
+    # Uso de información Mann-Kendall:
+    MK <- (r3 %>% filter(cuenca==ii))$mes # conjunto de meses p/código numérico de la cuenca
+    bolitas <- as.integer(1:12 %in% MK) + 1 # Tamaño de símbolos 1 o 2
+    
+    lines(tt$aTmin, type="b", pch=20, cex=bolitas)
     abline (h=0, lty="dotdash", lwd=2)
     grid(lwd=1)
     # tics <- c(yr[[jj]][1], 0, yr[[jj]][2])

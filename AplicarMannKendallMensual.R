@@ -73,9 +73,12 @@ for (nn in names(ll)) {
     rr <- ll[[nn]]
     rownames(rr) <- NULL
     write.table(rr, paste0(glob, "/", "MK-", nn, ".txt"), row.names=F)
-    # Además filtraremos la tabla por pvalue < umbral
+    # Además filtraremos la tabla por pvalue < umbral (pv)
     rr <- rr[rr[,"pvalue"] < pv[nn],]
     write.table(rr, paste0(glob, "/", "MK-", nn, "-FILTERED.txt"), row.names=F)
+    # Modificamos la lista de tablas, para poder utilizarla en quien llame
+    # a este bloque de código:
+    ll[[nn]] <- rr
 }
 
 

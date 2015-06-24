@@ -120,15 +120,37 @@ pdf(gnameTemp)
 for (jj in 1:3) { # Un archivo gráfico por variable
     dev.set(dev.next()) # Un dispositivo 
 
-    barplot(ttrr[[1+jj]], main=titles[jj] , 
+    # Mann-Kendall significance:
+    MK <- ll[[jj]] [,"cuenca"]
+    # T: significante, F: no significante
+    aa <- 1:10 %in% MK # Para c/u de las 10 cuencas
+    # Se manifestará mediante ashurado
+    ashura <- c(-1,25)[1 + aa]
+    barplot(ttrr[[1+jj]], main=titles[jj], density=ashura, 
             names=letters[1:10], xlab="Watersheds", ylab=usc[jj])
 }
 # Hacemos el gráfico alterno de temperaturas
 dev.set(dev.next()) # Último dispositivo 
-barplot(t(as.matrix(select(ttrr, aTmin:aTmax) %>% mutate(aTmax=aTmax-aTmin))), 
-        beside=F,
+
+# Mann-Kendall significance:
+MK <- ll[[2]] [,"cuenca"]
+# T: significante, F: no significante
+aa <- 1:10 %in% MK # Para c/u de las 10 cuencas
+# Se manifestará mediante ashurado
+ashura <- c(-1,25)[1 + aa]
+
+barplot(ttrr$aTmax, density = ashura, 
+        ylim=range(ttrr$aTmax, ttrr$aTmin),
         main=titles[4], 
         names=letters[1:10], xlab="Watersheds", ylab=usc[4])
-barplot(ttrr$aTmin, col=gray(0.35), add=T)
+
+# Mann-Kendall significance:
+MK <- ll[[3]] [,"cuenca"]
+# T: significante, F: no significante
+aa <- 1:10 %in% MK # Para c/u de las 10 cuencas
+# Se manifestará mediante ashurado
+ashura <- c(-1,25)[1 + aa]
+
+barplot(ttrr$aTmin, col=gray(0.10),  density = ashura, add=T)
 # se cierran todos los dispositivos gráficos:
 graphics.off()
