@@ -44,6 +44,8 @@ voronoipolygons <- function(v, bb, fe=0.25) {
     # coordenadas de los vértices: 
     crds <- if (.hasSlot(v, 'coords')) v@coords else v
     rw = expandbb(bb, fe)
+    # entra como vector en deldir, si no, no entiende
+    dim(rw) <- NULL
     z <- deldir(crds[,1], crds[,2],rw=rw)
     w <- tile.list(z) # poligoos de Voronoi
     polys <- vector(mode='list', length=length(w))
